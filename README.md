@@ -33,3 +33,12 @@
 - post-upgrade-job.yaml
   - Goal: redirect requests to web service
   - Method: modify the service selector
+
+## Installation
+- Command
+  ``` helm install <RELEASE NAME> <DIR NAME> ``` 
+
+
+## Upgrade
+- Command
+  ```helm upgrade <RELEASE NAME> <DIR NAME> --atomic```
