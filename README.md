@@ -40,5 +40,7 @@
 
 
 ## Upgrade
+- If the app doesn't exist, helm will install it automatically
+- If the app exists, helm will upgrade it
 - Command
-  ```helm upgrade <RELEASE NAME> <DIR NAME> --atomic```
+  ```helm upgrade -i <RELEASE NAME> <DIR NAME> --atomic```
