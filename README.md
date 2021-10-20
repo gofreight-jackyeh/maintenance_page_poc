@@ -15,6 +15,14 @@
     └── ...
 ```
 
+## Flow
+1. Redirect requests to maintenance page (pre-upgrade)
+2. Stop web service (pre-upgrade)
+3. Run DB migration (pre-upgrade)
+4. Upgrade helm package
+5. Start web service (post-upgrade)
+6. Redirect requests to web service (pre-upgrade)
+
 ## Description
 - Execution order
   1. hook-iam.yaml
@@ -27,13 +35,24 @@
   - Create a new service account for hooks
 
 - pre-upgrade-job.yaml
-  - Goal: redirect requests to maintenance page
-  - Method: modify the service selector
+  - Goal
+      1. Redirect requests to maintenance page
+      2. Stop web service
+      3. Run DB migration
+
+  - Action
+      1. Modify the service selector
+      2. Set deployment replicas count to 0
+      3. Launch an app pod to run db migration command
 
 - post-upgrade-job.yaml
-  - Goal: redirect requests to web service
-  - Method: modify the service selector
+  - Goal: 
+      1. Start web service
+      2. Redirect requests to web service
 
+  - Action
+      1. Modify the service selector
+      2. Set deployment replicas count to N
 ## Installation
 - Command
   ``` helm install <RELEASE NAME> <DIR NAME> ``` 

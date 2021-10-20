@@ -33,6 +33,22 @@ spec:
           - -c
           - >
               kubectl patch service webapp-nginx -p '{"spec":{"selector":{"app.kubernetes.io/instance":"maintenance","app.kubernetes.io/name":"node"}}}' 
+      
+      - name: stop-web-service
+        image: "k8s.gcr.io/hyperkube:v1.12.1"
+        imagePullPolicy: "IfNotPresent"
+        command:
+          - /bin/sh
+          - -c
+          - >
+              kubectl patch deployment webapp-nginx -p '{"spec":{"replicas":0}}' 
+
+      # Use alpine as our Application Docker image to run Django migration command
+      - name: run-db-migraton
+        image: "alpine:latest"
+        command: ["/bin/echo", "Running DB migration command"]
+
+      # Just for test
       - name: sleep
         image: "alpine:latest"
         command: ["/bin/sleep","{{ default "15" .Values.sleepyTime }}"]
